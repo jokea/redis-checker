@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-# Check the data consistency of redis servers
+# Check the data consistency of redis servers.
+# Accepts an integer as parameter to specify how many keys to check.
 
 import redis
 import sys
@@ -33,9 +34,9 @@ def check(key, type) :
 		elif type == 'zset' :
 			value = r.zrange(key, 0, -1)
 		elif type == 'none' :
-			pass
+			return
 		else :
-			pass
+			return
 
 		if first == None :
 			first = value
