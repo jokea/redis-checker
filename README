@@ -1,0 +1,25 @@
+INTRODUCTION:
+redis-checker is a tool used to check the data consistency between redis
+servers, it's especially useful when you want to check if all servers in a
+replication chain has the same data.
+
+USAGE:
+1. config.py contains a list of redis servers to be checked, each item in
+the list is a string contains server ip address and port;
+2. Install pyredis;
+3. redis-checker.py accepts an integer parameter to specify how many keys
+to check, for example:
+  $ ./redis-checker.py 10000
+Indicates redis-checker to check 10000 keys.
+4. Upon finish, it will print the number of unmatched keys and all unmatched
+keys will be printed line by line.
+
+NOTICE:
+To avoid giving redis servers too much pressure, modify the 'inteval' parameter
+in config.py, which specifies how long in seconds to sleep before trying next
+key. It can be a float, e.g. specify inteval=0.001 gives at most 1000 keys per
+second.
+
+LIMITATION:
+Currently only check keys in the default db(db 0), if you have multiple dbs,
+you can modify connect_all() in redis-checker.py to check the specific db.
