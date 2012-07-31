@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Check the consistency of redis servers
+# Check the data consistency of redis servers
 
 import redis
 import sys
@@ -24,46 +24,25 @@ def check(key, type) :
 	for r in connections :
 		if type == 'string' :
 			value = r.get(key)
-			if first == None :
-				first = value
-			else :
-				if value != first :
-					mismatch_set.add(key)
-					return
 		elif type == 'list' :
 			value = r.lrange(key, 0, -1)
-			if first == None :
-				first = value
-			else :
-				if value != first :
-					mismatch_set.add(key)
-					return
 		elif type == 'hash' :
 			value = r.hgetall(key)
-			if first == None :
-				first = value
-			else :
-				if value != first :
-					mismatch_set.add(key)
-					return
 		elif type == 'set' :
 			value = r.smembers(key)
-			if first == None :
-				first = value
-			else :
-				if value != first :
-					mismatch_set.add(key)
-					return
 		elif type == 'zset' :
 			value = r.zrange(key, 0, -1)
-			if first == None :
-				first = value
-			else :
-				if value != first :
-					mismatch_set.add(key)
-					return
 		elif type == 'none' :
 			pass
+		else :
+			pass
+
+		if first == None :
+			first = value
+		else :
+			if value != first :
+				mismatch_set.add(key)
+				return
 
 def main() :
 	connect_all()
